@@ -20,6 +20,8 @@ import org.insa.graphs.model.io.PathReader;
 public class Launch {
 
     /**
+     * FERCHICHI Wissem 
+     * 
      * Create a new Drawing inside a JFrame an return it.
      * 
      * @return The created drawing.
