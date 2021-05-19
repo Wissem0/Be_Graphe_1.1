@@ -55,6 +55,7 @@ public class Path {
         			if (a.getDestination() == nodes.get(i+1)) {
         				if (arcToAdd == null) {
         					arcToAdd = a;
+        				// on prend le plus court 
         				}else if (a.getMinimumTravelTime() < arcToAdd.getMinimumTravelTime()) {
         					arcToAdd = a ;
         				}
@@ -104,6 +105,7 @@ public class Path {
  	        			
  	        			if (arcToAdd == null){
  	        				arcToAdd = a; 
+ 	        			// on prend le plus court
  	        			}else if (a.getLength() < arcToAdd.getLength()) {
  	        				arcToAdd=a; 
  	        			}
@@ -274,9 +276,9 @@ public class Path {
     		return true;
     	}
     	// Chemin contient au moins deux noeuds
-    	// The destination of the first is th origin of the second one
     	else {
     		Node origine = this.getOrigin();
+    		// La destination du premier est l'origine du deuxième
     		for (Arc a : this.arcs) {
     			if (!origine.equals(a.getOrigin())) {
     				return false;
@@ -330,8 +332,8 @@ public class Path {
     public double getMinimumTravelTime() {
         // TODO:
     	double temps = 0;
-    	for (Arc myArc : this.arcs) {
-    		temps += myArc.getMinimumTravelTime();
+    	for (Arc a : this.arcs) {
+    		temps += a.getMinimumTravelTime();
     	}
         return temps;
     }
