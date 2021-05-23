@@ -5,24 +5,24 @@ import org.insa.graphs.model.Node;
 
 public class LabelStar extends Label implements Comparable<Label> {
 
-	private double coutEstime;
+	private double EstimatedCost;
 	
 	public LabelStar (Node CurrentNode) {
 		super(CurrentNode);
-		this.coutEstime = Double.POSITIVE_INFINITY;
+		this.EstimatedCost = Double.POSITIVE_INFINITY;
 	}
 	 @Override
 	public double getTotalCost() {
-		return this.coutEstime + this.getCost();
+		return this.EstimatedCost + this.getCost();
 	}
 	// Cout à vol d'oiseau
-	public double getCoutEstime() {
-	        return this.coutEstime;
+	public double getEstimatedCost() {
+	        return this.EstimatedCost;
 	    }
-	public void setCoutEstime(double EstimatedCost) {
-	        this.coutEstime = EstimatedCost;
+	public void setEstimatedCost(double EstimatedCost) {
+	        this.EstimatedCost=EstimatedCost ;
 	    } 
-    public int compareTo(LabelStar label) {
-    	return Double.compare(this.getCoutEstime(), label.getCoutEstime());
+	 public int compareTo(LabelStar label) {
+	    	return Double.compare(this.getEstimatedCost(), label.getEstimatedCost());
 	}
 }

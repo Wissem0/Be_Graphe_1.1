@@ -1,5 +1,6 @@
 package org.insa.graphs.algorithm.shortestpath;
 
+// Import
 import java.util.*;
 import org.insa.graphs.algorithm.utils.Label;
 import org.insa.graphs.algorithm.utils.ElementNotFoundException;
@@ -54,12 +55,9 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         Node Origin = data.getOrigin();
         Label OriginLabel = ArrayLabels[Origin.getId()];
         
+        // La destination
         Node Destination = data.getDestination();
         Label DestinationLabel = ArrayLabels[Destination.getId()];
-       
-        /* Variables pour calculer le nombre d'iteration et le nb d'arcs
-        int nbrIter = 0;
-        int nbrArcs = 0;  */ 
 				
         // Insertion de l'origine dans le tas 
         OriginLabel.setCost(0);
@@ -70,9 +68,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         
         //// ITERATIONS \\\\
         
-        // On tourne la boucle tant qu'il existe des sommets non marqués, le tas n'est pas vide et on n'a pas encore trouvé une solution 
+        // On tourne la boucle tant que la destintion est non marqués, le tas n'est pas vide et on n'a pas encore trouvé une solution 
         while (!DestinationLabel.getMark() && !Heap.isEmpty() && solution == null ) {
-        	// nbrIter += 1 ; 
         	
         	LabelActuel = Heap.deleteMin() ; 
         	LabelActuel.setMark();
@@ -87,48 +84,47 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
             
             // On parcourt la liste des successeurs du sommet actuel
         	for (Arc myArc: ListeSuccesseurs ) {
-        		// nbrArcs += 1 ;
      
         		// On teste si le chemin est allowed
         		if (data.isAllowed(myArc)) {
         			
-	        		Label IterDestination = ArrayLabels[myArc.getDestination().getId()];
+	        		Label Dest = ArrayLabels[myArc.getDestination().getId()];
 	        		
 	        		// Notifier l'observateur que le noeud est atteint 
 	        		notifyNodeReached(myArc.getDestination());
 	        		
-	        		if(! IterDestination.getMark()) {
+	        		if(! Dest.getMark()) {
 	        			
-		        			if (!IterDestination.getMark() && IterDestination.getCost() > LabelActuel.getCost() + data.getCost(myArc)) {
+		        			if (!Dest.getMark() && Dest.getCost() > LabelActuel.getCost() + data.getCost(myArc)) {
 		        				
 		        				try {
-		        					Heap.remove(IterDestination);
+		        					Heap.remove(Dest);
 		        				} catch(ElementNotFoundException e) {}
 		        				
 		        				nbre_explored ++ ;
-		        				IterDestination.setCost(LabelActuel.getCost() + data.getCost(myArc));
-		        				IterDestination.setFather(myArc);
+		        				Dest.setCost(LabelActuel.getCost() + data.getCost(myArc));
+		        				Dest.setFather(myArc);
 		        			
-		        				Heap.insert(IterDestination);
+		        				Heap.insert(Dest);
 		        			}
 	        		}
         		}
         	}
         }
        
-        // Si la destination n'a pas de père alors le chemin est impossible
+        // Si la destination n'a pas de père alors le chemin est impossible (ce cas est possible que lorsque origine = destination)
 		if((DestinationLabel.getFather()==null && (data.getOrigin().compareTo(data.getDestination())!= 0)  ) || !DestinationLabel.getMark()) {
 			System.out.println("Chemin impossible") ; 
 			solution = new ShortestPathSolution(data, Status.INFEASIBLE);
         } else {
         	
-        	// Sinon on atteint la destination et on notifie l'observateur
+        	// Sinon on notifie l'observateur (Destination Reached)
             notifyDestinationReached(data.getDestination());
             
             // Chemin vide
             if(data.getOrigin().compareTo(data.getDestination()) == 0) { 
             	System.out.println("Chemin Vide") ; 
-               solution = new ShortestPathSolution(data, Status.OPTIMAL, new Path(graph));
+                solution = new ShortestPathSolution(data, Status.OPTIMAL, new Path(graph));
                 
             }else {
    
@@ -136,7 +132,6 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	ArrayList<Arc> arcs = new ArrayList<>();
         	
         	while(!LabelActuel.equals(OriginLabel)) {
-        		// System.out.println("Cost of label " + CurrentLabel.getCost());
         		arcs.add(LabelActuel.getFather());
         		LabelActuel = ArrayLabels[LabelActuel.getFather().getOrigin().getId()];
         		
@@ -158,9 +153,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
             }
         	
         }
-
-		/* System.out.println(" Iterations : " + nbrIter + "iterations"); 
-        System.out.println(" Arcs: " + nbrArcs + "arcs"); */ 
+		
 		System.out.println(" Nombre de Noeud visités " + nbre_explored );
 		System.out.println(" Nombre de Noeud Marqués " + nbre_mark );
 		return solution;
