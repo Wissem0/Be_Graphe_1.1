@@ -75,7 +75,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	LabelActuel.setMark();
         	nbre_mark ++ ; 
         	
-        	System.out.println("Cout :" + LabelActuel.getCost());
+        	//Afficher le coùt
+        	//System.out.println("Cout :" + LabelActuel.getCost());
         	
         	// Notifier l'observateur du noeud marqué 
         	notifyNodeMarked(LabelActuel.getNode());
