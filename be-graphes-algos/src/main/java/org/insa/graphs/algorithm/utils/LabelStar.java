@@ -12,6 +12,7 @@ public class LabelStar extends Label implements Comparable<Label> {
 		this.EstimatedCost = Double.POSITIVE_INFINITY;
 	}
 	 @Override
+	// Renvoie le cout + le cout à vol d'oiseau
 	public double getTotalCost() {
 		return this.EstimatedCost + this.getCost();
 	}

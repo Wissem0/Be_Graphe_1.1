@@ -2,7 +2,6 @@ package org.insa.graphs.algorithm.shortestpath;
 
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedInputStream;
@@ -10,17 +9,13 @@ import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 import org.insa.graphs.algorithm.AbstractSolution;
 import org.insa.graphs.algorithm.ArcInspectorFactory;
-import org.insa.graphs.model.Arc;
 import org.insa.graphs.model.Graph;
 import org.insa.graphs.model.Node;
 import org.insa.graphs.model.Path;
-import org.insa.graphs.model.RoadInformation;
-import org.insa.graphs.model.RoadInformation.RoadType;
 import org.insa.graphs.model.io.BinaryGraphReader;
 import org.insa.graphs.model.io.BinaryPathReader;
 import org.insa.graphs.model.io.GraphReader;
@@ -46,9 +41,9 @@ public class ShortestpathTest {
 	 * Mode4 : Fastest path for pedestrians */
 	
 	/* Solution avec un seul noeud ( origine = destination), Dijkstra avec des differents mode */
-	protected static ShortestPathSolution 	unNoeudDijkstra0, unNoeudDijkstra2 ;
+	protected static ShortestPathSolution 	unNoeudDijkstra0, unNoeudDijkstra1, unNoeudDijkstra2,unNoeudDijkstra3, unNoeudDijkstra4 ;
 	/* Solution avec un seul noeud ( origine = destination), AStar avec des differents mode */
-	protected static ShortestPathSolution  unNoeudAStar0, unNoeudAStar2 ;
+	protected static ShortestPathSolution  unNoeudAStar0, unNoeudAStar1, unNoeudAStar2, unNoeudAStar3, unNoeudAStar4 ;
 	/* Solution Dijkstra et AStar, à comparer avec Bellman */
 	protected static ShortestPathSolution longDijkstra0, longDijkstra2, longAStar0, longAStar2 ;
 	/* Solution infeasible Dijkstra et AStar */
@@ -127,26 +122,51 @@ public class ShortestpathTest {
 		
 		// data un seul noeud mode0
 		ShortestPathData data0 = new ShortestPathData(graphCarre, unNoeud, unNoeud, ArcInspectorFactory.getAllFilters().get(0));
+		// data un seul noeud mode1
+		ShortestPathData data1 = new ShortestPathData(graphCarre, unNoeud, unNoeud, ArcInspectorFactory.getAllFilters().get(1));
 		// data un seul noeud mode2
 		ShortestPathData data2 = new ShortestPathData(graphCarre, unNoeud, unNoeud, ArcInspectorFactory.getAllFilters().get(2));
+		// data un seul noeud mode0
+		ShortestPathData data3 = new ShortestPathData(graphCarre, unNoeud, unNoeud, ArcInspectorFactory.getAllFilters().get(3));
+		// data un seul noeud mode0
+		ShortestPathData data4 = new ShortestPathData(graphCarre, unNoeud, unNoeud, ArcInspectorFactory.getAllFilters().get(4));
+
 		
 		
-		// DIJKSTRA 
+		// Dijkstra avec différents modes
 		// Mode 0 
-		DijkstraAlgorithm singleDijkstra0 = new DijkstraAlgorithm(data0);
-		unNoeudDijkstra0 = singleDijkstra0.doRun();
+		DijkstraAlgorithm oneDijkstra0 = new DijkstraAlgorithm(data0);
+		unNoeudDijkstra0 = oneDijkstra0.doRun();
+		// Mode 1 
+		DijkstraAlgorithm oneDijkstra1 = new DijkstraAlgorithm(data1);
+		unNoeudDijkstra1 = oneDijkstra1.doRun();
 		// Mode 2 
-		DijkstraAlgorithm singleDijkstra2 = new DijkstraAlgorithm(data2);
-		unNoeudDijkstra2 = singleDijkstra2.doRun();
+		DijkstraAlgorithm oneDijkstra2 = new DijkstraAlgorithm(data2);
+		unNoeudDijkstra2 = oneDijkstra2.doRun();
+		// Mode 3 
+		DijkstraAlgorithm oneDijkstra3 = new DijkstraAlgorithm(data3);
+		unNoeudDijkstra3 = oneDijkstra3.doRun();
+		// Mode 4 
+		DijkstraAlgorithm oneDijkstra4 = new DijkstraAlgorithm(data4);
+		unNoeudDijkstra4 = oneDijkstra4.doRun();
 		
 		
-		// ASTAR  
+		// AStar avec différents modes  
 		// Mode 0 
-		AStarAlgorithm singleAStar0 = new AStarAlgorithm(data0) ; 
-		unNoeudAStar0 = singleAStar0.doRun() ; 
+		AStarAlgorithm oneAStar0 = new AStarAlgorithm(data0) ; 
+		unNoeudAStar0 = oneAStar0.doRun() ; 
+		// Mode 1 
+		AStarAlgorithm oneAStar1 = new AStarAlgorithm(data1) ; 
+		unNoeudAStar1 = oneAStar1.doRun() ; 
 		// Mode 2 
-		AStarAlgorithm singleAStar2 = new AStarAlgorithm(data2) ; 
-		unNoeudAStar2 = singleAStar2.doRun() ;
+		AStarAlgorithm oneAStar2 = new AStarAlgorithm(data2) ; 
+		unNoeudAStar2 = oneAStar2.doRun() ;
+		// Mode 3 
+		AStarAlgorithm oneAStar3 = new AStarAlgorithm(data3) ; 
+		unNoeudAStar3 = oneAStar3.doRun() ; 
+		// Mode 4 
+		AStarAlgorithm oneAStar4 = new AStarAlgorithm(data4) ; 
+		unNoeudAStar4 = oneAStar4.doRun() ; 
 		
 		
 		
@@ -299,13 +319,40 @@ public class ShortestpathTest {
 			assertTrue(unNoeudDijkstra0.getPath().isValid());
 		}
 		
-
+		
+		// Test Dijkstra, Origin=Destination, Mode1
+		@Test
+		public void TestDijkstra_LongueurNulle_Mode1() {
+			assertEquals(0, unNoeudPath.getOrigin().compareTo(unNoeudDijkstra1.getPath().getOrigin()));
+			assertTrue(Math.abs(unNoeudPath.getLength() - unNoeudDijkstra1.getPath().getLength()) < 0.001);
+			assertTrue(unNoeudDijkstra1.getPath().isValid());
+		}
+				
+		
 		// Test Dijkstra, Origin=Destination, Mode2
 		@Test
 		public void TestDijkstra_LongueurNulle_Mode2() {
 			assertEquals(0, unNoeudPath.getOrigin().compareTo(unNoeudDijkstra2.getPath().getOrigin()));
 			assertTrue(Math.abs(unNoeudPath.getMinimumTravelTime() - unNoeudDijkstra2.getPath().getMinimumTravelTime()) < 0.001);
 			assertTrue(unNoeudDijkstra2.getPath().isValid());
+		}
+		
+		
+		// Test Dijkstra, Origin=Destination, Mode3
+		@Test
+		public void TestDijkstra_LongueurNulle_Mode3() {
+			assertEquals(0, unNoeudPath.getOrigin().compareTo(unNoeudDijkstra3.getPath().getOrigin()));
+			assertTrue(Math.abs(unNoeudPath.getMinimumTravelTime() - unNoeudDijkstra3.getPath().getMinimumTravelTime()) < 0.001);
+			assertTrue(unNoeudDijkstra3.getPath().isValid());
+		}
+		
+		
+		// Test Dijkstra, Origin=Destination, Mode4
+		@Test
+		public void TestDijkstra_LongueurNulle_Mode4() {
+			assertEquals(0, unNoeudPath.getOrigin().compareTo(unNoeudDijkstra4.getPath().getOrigin()));
+			assertTrue(Math.abs(unNoeudPath.getMinimumTravelTime() - unNoeudDijkstra4.getPath().getMinimumTravelTime()) < 0.001);
+			assertTrue(unNoeudDijkstra4.getPath().isValid());
 		}
 		
 		
@@ -316,14 +363,38 @@ public class ShortestpathTest {
 			assertTrue(Math.abs(unNoeudPath.getLength() - unNoeudAStar0.getPath().getLength()) < 0.001) ; 
 			assertTrue(unNoeudAStar0.getPath().isValid()) ; 
 		}
-		
-		
+
+	    // Test AStar, Origin=Destination, Mode1
+		@Test
+		public void TestAStar_LongueurNulle_Mode1() {
+			assertEquals(0, unNoeudPath.getOrigin().compareTo(unNoeudAStar1.getPath().getOrigin())) ; 
+			assertTrue(Math.abs(unNoeudPath.getLength() - unNoeudAStar1.getPath().getLength()) < 0.001) ; 
+			assertTrue(unNoeudAStar1.getPath().isValid()) ; 
+		}
+
 	    // Test AStar, Origin=Destination, Mode2
 		@Test
 		public void TestAStar_LongueurNulle_Mode2() {
 			assertEquals(0, unNoeudPath.getOrigin().compareTo(unNoeudAStar2.getPath().getOrigin())) ; 
-			assertTrue(Math.abs(unNoeudPath.getMinimumTravelTime()- unNoeudAStar2.getPath().getMinimumTravelTime()) < 0.001) ; 
+			assertTrue(Math.abs(unNoeudPath.getLength() - unNoeudAStar2.getPath().getLength()) < 0.001) ; 
 			assertTrue(unNoeudAStar2.getPath().isValid()) ; 
+		}
+
+	    // Test AStar, Origin=Destination, Mode3
+		@Test
+		public void TestAStar_LongueurNulle_Mode3() {
+			assertEquals(0, unNoeudPath.getOrigin().compareTo(unNoeudAStar3.getPath().getOrigin())) ; 
+			assertTrue(Math.abs(unNoeudPath.getLength() - unNoeudAStar3.getPath().getLength()) < 0.001) ; 
+			assertTrue(unNoeudAStar3.getPath().isValid()) ; 
+		}
+
+		
+	    // Test AStar, Origin=Destination, Mode4
+		@Test
+		public void TestAStar_LongueurNulle_Mode4() {
+			assertEquals(0, unNoeudPath.getOrigin().compareTo(unNoeudAStar4.getPath().getOrigin())) ; 
+			assertTrue(Math.abs(unNoeudPath.getMinimumTravelTime()- unNoeudAStar4.getPath().getMinimumTravelTime()) < 0.001) ; 
+			assertTrue(unNoeudAStar4.getPath().isValid()) ; 
 		}
 		
 		// Test Dijkstra, paires de noeuds aléatoires, Mode0 

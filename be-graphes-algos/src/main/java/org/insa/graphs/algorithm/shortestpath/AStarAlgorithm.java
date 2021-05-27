@@ -19,25 +19,25 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
 
  	   int MaxSpeed = Speed() ; 
  	   
- 	   Point DestinationP = data.getDestination().getPoint() ; 
+ 	   Point pointDestination = data.getDestination().getPoint() ; 
  	   
  	   for (Node node : nodes) {
  		   ArrayLabels[node.getId()] = new LabelStar(node);
  		   
  		   // Si c'est la mode Length: Le cout est la distance entre ce noeud et la destination
  		   if(data.getMode() == AbstractInputData.Mode.LENGTH) {
- 			   Cost = node.getPoint().distanceTo(DestinationP);
+ 			   Cost = node.getPoint().distanceTo(pointDestination);
  			   
  			// Sinon c'est le temps
  	       	} else {
- 	       		Cost = 3.6* node.getPoint().distanceTo(DestinationP) / MaxSpeed; 
+ 	       		Cost = 3.6* node.getPoint().distanceTo(pointDestination) / MaxSpeed; 
  	       	}
  		   
  		   ArrayLabels[node.getId()].setEstimatedCost(Cost);
  	   }
  	   return ArrayLabels ; 
      }
-   // Pour éviter le problème des sommets marqués qui font des cercle dasn toute la carte
+   // Pour éviter le problème des sommets marqués qui font des cercle dans toute la carte
     private int Speed() {
  	   int MaxSpeedData =  data.getMaximumSpeed() ; 
  	   int MaxSpeedGraph = graph.getGraphInformation().getMaximumSpeed() ;
